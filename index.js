@@ -114,8 +114,6 @@ function animaster() {
         element.classList.add('hide');
     }
 
-    
-
     function moveAndHide(element, duration) {
         const mo = duration * 2 / 5;
         const fin = duration * 3 / 5;
