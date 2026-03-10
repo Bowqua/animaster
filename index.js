@@ -114,5 +114,34 @@ function animaster() {
         element.classList.add('hide');
     }
 
-    return {fadeIn, move, scale, fadeOut};
+    
+
+    function moveAndHide(element, duration) {
+        const mo = duration * 2 / 5;
+        const fin = duration * 3 / 5;
+
+        move(element, mo, {x : 100, y : 20});
+        setTimeout(() => fadeOut(element, fin), mo);
+    }
+
+    function showAndHide(element, duration) {
+        const tic = duration / 3;
+        fadeIn(element, tic);
+        setTimeout(() => fadeOut(element, tic), tic * 2);
+    }
+
+    function heartBeating(element) {
+        const tic = 500;
+        let bet = false;
+
+        scale(element, tic, 1.4);
+
+        return setInterval(() => {
+            bet = !bet;
+            scale(element, tic, bet ? 1 : 1.4);
+        }, tic);
+    }
+
+    return {fadeIn, move, scale, fadeOut, moveAndHide, showAndHide, heartBeating};
+
 }
