@@ -28,7 +28,13 @@ function addListeners() {
     document.getElementById('moveAndHide')
         .addEventListener('click', function () {
             const block = document.getElementById('moveAndHideBlock');
-            animaster().moveAndHide(block, 5000);
+            mah = animaster().moveAndHide(block, 5000);
+        });
+
+    document.getElementById('resetMoveAndHide')
+        .addEventListener('click', function () {
+            const block = document.getElementById('moveAndHideBlock');
+            mah?.stop();
         });
 
     document.getElementById('showAndHide')
@@ -37,11 +43,18 @@ function addListeners() {
             animaster().showAndHide(block, 5000);
         });
 
-    document.getElementById('heartBeating')
+    document.getElementById('heartBeatingPlay')
         .addEventListener('click', function () {
             const block = document.getElementById('heartBeatingBlock');
-            animaster().heartBeating(block);
+            herAnim = animaster().heartBeating(block);
         });
+
+    document.getElementById('heartBeatingStop')
+        .addEventListener('click', function () {
+            const block = document.getElementById('heartBeatingBlock');
+            herAnim?.stop();
+        });
+
     document.getElementById('resetFadeIn')
         .addEventListener('click', function () {
             const block = document.getElementById('fadeInBlock');
@@ -119,7 +132,15 @@ function animaster() {
         const fin = duration * 3 / 5;
 
         move(element, mo, {x : 100, y : 20});
-        setTimeout(() => fadeOut(element, fin), mo);
+        const timerId = setTimeout(() => fadeOut(element, fin), mo);
+
+        return {
+            stop() {
+                clearTimeout(timerId);
+                resetMoveAndScale(element);
+                resetFadeOut(element);
+            }
+        };
     }
 
     function showAndHide(element, duration) {
@@ -134,11 +155,18 @@ function animaster() {
 
         scale(element, tic, 1.4);
 
-        return setInterval(() => {
+        let time =  setInterval(() => {
             bet = !bet;
             scale(element, tic, bet ? 1 : 1.4);
         }, tic);
+
+        return {
+            stop() {
+                clearInterval(time);
+            }
+        }
     }
+
 
     function resetFadeIn(element) {
         element.classList.remove('show');
