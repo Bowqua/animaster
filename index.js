@@ -23,7 +23,25 @@ function addListeners() {
         .addEventListener('click', function () {
             const block = document.getElementById('fadeOutBlock');
             animaster().fadeOut(block, 5000);
-        })
+        });
+
+    document.getElementById('moveAndHide')
+        .addEventListener('click', function () {
+            const block = document.getElementById('moveAndHideBlock');
+            animaster().moveAndHide(block, 5000);
+        });
+
+    document.getElementById('showAndHide')
+        .addEventListener('click', function () {
+            const block = document.getElementById('showAndHideBlock');
+            animaster().showAndHide(block, 5000);
+        });
+
+    document.getElementById('heartBeating')
+        .addEventListener('click', function () {
+            const block = document.getElementById('heartBeatingBlock');
+            animaster().heartBeating(block);
+        });
 }
 
 /**
@@ -81,5 +99,31 @@ function animaster() {
         element.classList.add('hide');
     }
 
-    return {fadeIn, move, scale, fadeOut};
+    function moveAndHide(element, duration) {
+        const mo = duration * 2 / 5;
+        const fin = duration * 3 / 5;
+
+        move(element, mo, {x : 100, y : 20});
+        setTimeout(() => fadeOut(element, fin), mo);
+    }
+
+    function showAndHide(element, duration) {
+        const tic = duration / 3;
+        fadeIn(element, tic);
+        setTimeout(() => fadeOut(element, tic), tic * 2);
+    }
+
+    function heartBeating(element) {
+        const tic = 500;
+        let bet = false;
+
+        scale(element, tic, 1.4);
+
+        return setInterval(() => {
+            bet = !bet;
+            scale(element, tic, bet ? 1 : 1.4);
+        }, tic);
+    }
+
+    return {fadeIn, move, scale, fadeOut, moveAndHide, showAndHide, heartBeating};
 }
